@@ -9,7 +9,7 @@ import java.util.List;
  *
  * Created by yqritc on 2015/03/19.
  */
-public class ListBindAdapter extends DataBindAdapter {
+public abstract class ListBindAdapter extends DataBindAdapter {
 
     private List<DataBinder> mBinderList = new ArrayList<>();
 
@@ -35,8 +35,15 @@ public class ListBindAdapter extends DataBindAdapter {
     }
 
     @Override
-    public <T extends DataBinder> T getDataBinder(int viewType) {
-        return (T) mBinderList.get(viewType);
+    public <T extends DataBinder> T getDataBinder(int position) {
+        int itemCount = 0;
+        for (int viewType = 0; viewType < mBinderList.size(); viewType++) {
+            itemCount += mBinderList.get(viewType).getItemCount();
+            if (position < itemCount) {
+                return (T) mBinderList.get(viewType);
+            }
+        }
+        throw new IllegalArgumentException("arg position is invalid");
     }
 
     @Override

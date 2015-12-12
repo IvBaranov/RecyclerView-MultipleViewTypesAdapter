@@ -12,13 +12,13 @@ abstract public class DataBindAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return getDataBinder(viewType).newViewHolder(parent);
+        return getDataBinderByViewType(viewType).newViewHolder(parent);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         int binderPosition = getBinderPosition(position);
-        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
+        getDataBinder(position).bindViewHolder(viewHolder, binderPosition);
     }
 
     @Override
@@ -27,7 +27,9 @@ abstract public class DataBindAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public abstract int getItemViewType(int position);
 
-    public abstract <T extends DataBinder> T getDataBinder(int viewType);
+    public abstract <T extends DataBinder> T getDataBinder(int position);
+
+    public abstract <T extends DataBinder> T getDataBinderByViewType(int viewType);
 
     public abstract int getPosition(DataBinder binder, int binderPosition);
 
